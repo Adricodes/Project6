@@ -1,7 +1,8 @@
 //MONGO PWD
 //MONGO CONNECTION
 
-express = require('express');
+const express = require('express');
+const app = express();
 const mongoose = require('mongoose');
 const Thing = require('./models/thing');
 
@@ -28,11 +29,14 @@ app.post('/api/stuff', (req, res, next) => {
     );
   });
 
-mongoose.connect(mongodb+srv:adrirangel6:<password>@cluster0.fvrfhjf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0)
-.then(()) => 
-{
-
-}
+mongoose.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.fykvygd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`)
+  .then(() => {
+    console.log('Successfully connected to MongoDB Atlas!');
+  })
+  .catch((error) => {
+    console.log('Unable to connect to MongoDB Atlas!');
+    console.error(error);
+  });
 app.use(express.json());
 
 app.use((req, res, next) => {
@@ -42,7 +46,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(bodyParser.json())
+// app.use(bodyParser.json())
 
 
 app.post('/api/stuff', (req, res, next) => {
@@ -88,6 +92,20 @@ app.get('/api/stuff', (req, res, next) => {
         },
     ];
     res.status(200).json(stuff);
+});
+
+app.use('/api/stuff', (req, res, next) => {
+  Thing.find().then(
+    (things) => {
+      res.status(200).json(things);
+    }
+  ).catch(
+    (error) => {
+      res.status(400).json({
+        error: error
+      });
+    }
+  );
 });
 
 module.exports = app;
