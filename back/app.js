@@ -15,13 +15,21 @@ const thingSchema = mongoose.Schema({
 const Thing = require('./models/thing');
 const stuff = [
   {
-    _id: ' eve',
-    title: 'color',
-    description: 'big',
-    imageUrl:  'www.photo.com'
-    price: 4500
-    userId:colorMe
-  }
+    _id: 'oeihfzeoi',
+    title: 'My first thing',
+    description: 'All of the info about my first thing',
+    imageUrl: 'https://cdn.pixabay.com/photo/2019/06/11/18/56/camera-4267692_1280.jpg',
+    price: 4900,
+    userId: 'qsomihvqios',
+},
+{
+    _id: 'oeihfzeomoihi',
+    title: 'My second thing',
+    description: 'All of the info about my second thing',
+    imageUrl: 'https://cdn.pixabay.com/photo/2019/06/11/18/56/camera-4267692_1280.jpg',
+    price: 2900,
+    userId: 'qsomihvqios',
+},
 ]
 
 app.post('/api/stuff', (req, res, next) => {
