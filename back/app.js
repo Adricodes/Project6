@@ -29,7 +29,7 @@ const stuff = [
     imageUrl: 'https://cdn.pixabay.com/photo/2019/06/11/18/56/camera-4267692_1280.jpg',
     price: 2900,
     userId: 'qsomihvqios',
-},
+}
 ]
 
 app.post('/api/stuff', (req, res, next) => {
