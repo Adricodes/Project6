@@ -128,8 +128,11 @@ exports.modifySauce = (req, res, next) => {
 };
 
 exports.deleteSauce = (req, res, next) => {
+  // console.log(delete);
   Sauce.findOne({ _id: req.params.id }).then(
     (sauce) => {
+      // const url = req.protocol + '://' + req.get('host');
+      // const imageUrl = url + '/images/' + req.file.filename;
       const filename = sauce.imageUrl.split('/images/')[1];
       fs.unlink('images/' + filename, () => {
         Sauce.deleteOne({ _id: req.params.id }).then(
@@ -141,7 +144,6 @@ exports.deleteSauce = (req, res, next) => {
         ).catch(
           (error) => {
             res.status(400).json({
-              error: error
             });
           }
         );
