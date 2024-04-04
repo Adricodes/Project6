@@ -129,16 +129,28 @@ exports.getAllSauce = (req, res, next) => {
 };
 
 exports.likeSauce = (req, res, next) => {
-  
+  //get userId and like info
+  let userIdInfo = req.body.sauce.userId;
+  let likes = req.body.sauce.like;
+  let dislikes = req.body.sauce.userId;
+  //get the sauce they want to like/dislike from the database
   Sauce.findOne({
     _id: req.params.id
   }).then(
     (sauce) => {
+      if (likes === 1) {
+        return likes = +1;
+      }
+      if (likes === 0) {
+        return likes = 0;
+      }
+      else (likes === -1)
+      return likes = -1;
       res.status(200).json(sauce);
     }
   ).catch(
     (error) => {
-      res.status(404).json({
+      res.status(400).json({
         error: error
       });
     }
