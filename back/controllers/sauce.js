@@ -130,28 +130,41 @@ exports.getAllSauce = (req, res, next) => {
 
 exports.likeSauce = (req, res, next) => {
   //get userId and like info
-  let userIdInfo = req.body.sauce.userId;
-  let likes = req.body.sauce.like;
-  let dislikes = req.body.sauce.userId;
+  console.log(req.body)
+  let userIdInfo = req.body.userId;
+  let currentLikes = req.body.like;
+  let userId = req.body.userId;
+  let sauceId = req.body._id;
   //get the sauce they want to like/dislike from the database
   Sauce.findOne({
     _id: req.params.id
   }).then(
     (sauce) => {
-      if (likes === 1) {
-        return likes = +1;
+      if (currentLikes === 1) {
+        // TODO increase the sauce likes value by 1 if the user has not already liked the sauce
+        // TODO users liked array add userId liking the sauce to the userlIKED IF they haven't already liked the sauce
+        // TODO update the sauce or save the changes to the sauce in the database
+        // {
+        //   ...
+        //   "likes": 1,
+        //   ...
+        //   "usersLiked": ['66102...'],
+        //   ...
+        // }
       }
-      if (likes === 0) {
-        return likes = 0;
+      else if (currentLikes === 0) {
+        // TODO remove likes or dislikes if they have previously liked or disliked the sauce
+        // TODO update the sauce or save the changes to the sauce in the database
       }
-      else (likes === -1)
-      return likes = -1;
+      else if (currentLikes === -1) {
+        currentLikes = -1;
+      }
       res.status(200).json(sauce);
     }
   ).catch(
     (error) => {
       res.status(400).json({
-        error: error
+        error: error.message
       });
     }
   );
