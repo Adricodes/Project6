@@ -129,40 +129,44 @@ exports.getAllSauce = (req, res, next) => {
 };
 
 exports.likeSauce = (req, res, next) => {
-  //get userId and like inf
   let userIdInfo = req.body.userId;
   let currentLikes = req.body.like;
-  let sauceId = req.body._id;
-  //get the sauce they want to like/dislike from the database
+  let sauceId = req.params.id;
   Sauce.findOne({
     _id: req.params.id
   }).then(
     (sauce) => {
       if (currentLikes === 1 && !sauce.usersLiked.includes(userIdInfo)) {
         console.log("user liking sauce now")
-
-        // TODO increase the sauce likes value by 1 if the user has not already liked the sauce
-        // TODO users liked array add userId liking the sauce to the userlIKED IF they haven't already liked the sauce
-
-        // TODO update the sauce or save the changes to the sauce in the database
-        // {
-        //   ...
-        //   "likes": 1,
-        //   ...
-        //   "usersLiked": ['66102...'],
-        //   ...
-        // }
+        sauce.likes++
+        sauce.usersLiked.push(userIdInfo)
       }
       else if (currentLikes === 0 && (sauce.usersLiked.includes(userIdInfo) || sauce.usersDisliked.includes(userIdInfo))) {
-        console.log("removing users like dislike")
-        // TODO remove likes or dislikes if they have previously liked or disliked the sauce
-        // TODO update the sauce or save the changes to the sauce in the database
+        console.log("removing users who like or dislike")
       }
+        // TODO remove likes or dislikes if they have previously liked or disliked the sauce
+      else if(currentLikes === 0 || 1 || -1 && (sauce.usersLiked.includes(userIdInfo) || sauce.usersDisliked.includes(userIdInfo))) {
+          console.log("removing likes or dislikes previously liked or disliked")
+        }
+        // TODO update the sauce or save the changes to the sauce in the database
+      
       else if (currentLikes === -1 && !sauce.usersDisliked.includes(userIdInfo)) {
-        console.log("disliking sauce")
+        console.log("disliking sauce!")
 
       }
-      res.status(200).json(sauce);
+      Sauce.updateOne({ _id: sauceId }, sauce).then(
+        () => {
+          res.status(201).json({
+            message: 'Sauce liked successfully!'
+          });
+        }
+      ).catch(
+        (error) => {
+          res.status(400).json({
+            error: error.message
+          });
+        }
+      );
     }
   ).catch(
     (error) => {
