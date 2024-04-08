@@ -144,15 +144,10 @@ exports.likeSauce = (req, res, next) => {
       else if (currentLikes === 0 && (sauce.usersLiked.includes(userIdInfo) || sauce.usersDisliked.includes(userIdInfo))) {
         console.log("removing users who like or dislike")
       }
-        // TODO remove likes or dislikes if they have previously liked or disliked the sauce
-      else if(currentLikes === 0 || 1 || -1 && (sauce.usersLiked.includes(userIdInfo) || sauce.usersDisliked.includes(userIdInfo))) {
-          console.log("removing likes or dislikes previously liked or disliked")
-        }
-        // TODO update the sauce or save the changes to the sauce in the database
-      
       else if (currentLikes === -1 && !sauce.usersDisliked.includes(userIdInfo)) {
-        console.log("disliking sauce!")
-
+        console.log("disliking sauce, ew!")
+        sauce.dislikes++
+        sauce.usersDisliked.push(userIdInfo)
       }
       Sauce.updateOne({ _id: sauceId }, sauce).then(
         () => {
