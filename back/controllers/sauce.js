@@ -143,10 +143,13 @@ exports.likeSauce = (req, res, next) => {
       }
       else if (currentLikes === 0 && (sauce.usersLiked.includes(userIdInfo) || sauce.usersDisliked.includes(userIdInfo))) {
         console.log("removing users who like or dislike")
+        sauce.dislikes--
+        sauce.usersDisliked--
+
       }
       else if (currentLikes === -1 && !sauce.usersDisliked.includes(userIdInfo)) {
-        console.log("disliking sauce, ew!")
-        sauce.dislikes++
+        console.log("disliking sauce")
+        sauce.dislikes--
         sauce.usersDisliked.push(userIdInfo)
       }
       Sauce.updateOne({ _id: sauceId }, sauce).then(
